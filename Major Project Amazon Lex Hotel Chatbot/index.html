@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Major Project AWS - Hotel Booking Chatbot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-shape bg-shape-one"></div>
+    <div class="bg-shape bg-shape-two"></div>
+
+    <main class="layout">
+      <section class="hero">
+        <p class="eyebrow">Major Project AWS</p>
+        <h1>Amazon Lex Hotel Booking Chatbot</h1>
+        <p>
+          Book a room by chat. Select category, stay duration, and check-in date.
+          The chatbot returns complete booking details including total price.
+        </p>
+
+        <div class="room-grid" id="roomCatalog"></div>
+      </section>
+
+      <section class="chat-card" aria-label="Hotel booking chat">
+        <header class="chat-header">
+          <h2>BookHotel Assistant</h2>
+          <button id="restartBtn" class="ghost-btn" type="button">Restart</button>
+        </header>
+
+        <div class="chat-window" id="chatWindow" aria-live="polite"></div>
+
+        <div class="quick-actions" id="quickActions"></div>
+
+        <form id="chatForm" class="chat-form">
+          <label for="chatInput" class="sr-only">Type your message</label>
+          <input
+            id="chatInput"
+            name="chatInput"
+            type="text"
+            placeholder="Type here..."
+            autocomplete="off"
+            required
+          />
+          <button type="submit">Send</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
