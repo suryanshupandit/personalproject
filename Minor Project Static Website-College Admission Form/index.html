@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIET University | Admission Form</title>
+    <style>
+        :root {
+            --navy: #0a2a43;
+            --navy-2: #123b5d;
+            --gold: #d4a33b;
+            --bg: #eef3f8;
+            --card: rgba(255, 255, 255, 0.9);
+            --text: #132335;
+            --muted: #5c6b7a;
+            --muted-2: #6f7f90;
+            --line: #d9e3ee;
+            --soft: #f6f9fc;
+            --soft-2: #eef5fb;
+            --shadow: 0 24px 60px rgba(10, 42, 67, 0.16);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(212, 163, 59, 0.22), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(18, 59, 93, 0.16), transparent 32%),
+                linear-gradient(180deg, #f7fafc 0%, var(--bg) 100%);
+            margin: 0;
+            min-height: 100vh;
+            color: var(--text);
+            padding: 32px 18px;
+            display: grid;
+            place-items: center;
+        }
+
+        .container {
+            width: min(100%, 760px);
+            background: var(--card);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: var(--shadow);
+            border-radius: 28px;
+            overflow: hidden;
+        }
+
+        .intro {
+            padding: 24px 32px 0;
+        }
+
+        .project-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 0 14px;
+            padding: 9px 14px;
+            border-radius: 999px;
+            background: rgba(18, 59, 93, 0.08);
+            color: var(--navy-2);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .project-tag::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+        }
+
+        .brand-banner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 0 0 16px;
+            padding: 16px 18px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(10, 42, 67, 0.95), rgba(18, 59, 93, 0.92));
+            color: #fff;
+            box-shadow: 0 14px 30px rgba(10, 42, 67, 0.18);
+        }
+
+        .brand-mark {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #f4c95d, #d4a33b);
+            color: #10243b;
+            font-weight: 900;
+            display: grid;
+            place-items: center;
+            letter-spacing: 0.04em;
+            flex: 0 0 auto;
+        }
+
+        .brand-text {
+            min-width: 0;
+        }
+
+        .brand-name {
+            display: block;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .brand-subtitle {
+            display: block;
+            margin-top: 4px;
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .project-title {
+            margin: 0;
+            font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+            color: var(--text);
+        }
+
+        .project-summary {
+            margin: 10px 0 0;
+            color: var(--muted);
+            line-height: 1.65;
+            max-width: 66ch;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 18px;
+            margin-top: 22px;
+        }
+
+        .panel {
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: linear-gradient(180deg, #fff 0%, var(--soft) 100%);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 18px 20px;
+            background: linear-gradient(135deg, rgba(10, 42, 67, 0.98), rgba(18, 59, 93, 0.96));
+            color: #fff;
+        }
+
+        .panel-header h2 {
+            margin: 0;
+            font-size: 1.05rem;
+            letter-spacing: 0.02em;
+        }
+
+        .panel-body {
+            padding: 20px;
+        }
+
+        .steps {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .steps li + li {
+            margin-top: 10px;
+        }
+
+        .callout {
+            margin-top: 16px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(212, 163, 59, 0.14);
+            border: 1px solid rgba(212, 163, 59, 0.26);
+            color: #533d07;
+            line-height: 1.55;
+            font-size: 0.94rem;
+        }
+
+        .policy {
+            margin: 0;
+            padding: 18px;
+            border-radius: 16px;
+            background: #0f1720;
+            color: #e8f0f7;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .policy-label {
+            margin: 0 0 10px;
+            color: var(--muted-2);
+            font-size: 0.86rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .mini-list {
+            margin: 14px 0 0;
+            padding-left: 18px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .mini-list li + li {
+            margin-top: 8px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 60%, #0f4a74 100%);
+            color: #fff;
+            padding: 34px 32px 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto -60px -70px auto;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(212, 163, 59, 0.18);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.78);
+            margin-bottom: 12px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 42px;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 999px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.05;
+            letter-spacing: 0.02em;
+        }
+
+        .subtitle {
+            margin: 12px 0 0;
+            max-width: 54ch;
+            color: rgba(255, 255, 255, 0.84);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .content {
+            padding: 30px 32px 32px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text);
+            font: inherit;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #90a0af;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--navy-2);
+            box-shadow: 0 0 0 4px rgba(18, 59, 93, 0.14);
+            transform: translateY(-1px);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px 18px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--gold), #efc45a);
+            color: #10243b;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 16px 30px rgba(212, 163, 59, 0.28);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 34px rgba(212, 163, 59, 0.34);
+            filter: brightness(1.02);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .footer {
+            padding: 0 32px 30px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .note {
+            margin-top: 16px;
+            padding: 14px 16px;
+            border: 1px solid rgba(18, 59, 93, 0.12);
+            border-radius: 14px;
+            background: rgba(18, 59, 93, 0.05);
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 680px) {
+            body {
+                padding: 14px;
+            }
+
+            .intro,
+            .hero,
+            .content,
+            .footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .project-grid,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-banner {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="intro">
+        <div class="brand-banner" aria-label="GIET University banner">
+            <div class="brand-mark">GIET</div>
+            <div class="brand-text">
+                <span class="brand-name">GIET University</span>
+                <span class="brand-subtitle">College Admission Form</span>
+            </div>
+        </div>
+        <h1 class="project-title">College Admission Form</h1>
+        <p class="project-summary">College Admission Form for AWS S3 hosting.</p>
+    </div>
+
+    <div class="hero">
+        <div class="eyebrow">GIET University</div>
+        <h1>Online Admission Application Form</h1>
+        <p class="subtitle">Submit your details to begin the admission process. This form is designed for a clean, mobile-friendly experience with a clear confirmation message after submission.</p>
+    </div>
+
+    <div class="content">
+        <form id="admissionForm" method="post" novalidate>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input id="fullName" name="fullName" type="text" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="emailAddress">Email Address</label>
+                    <input id="emailAddress" name="emailAddress" type="email" placeholder="email@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="courseApplied">Course Applied For</label>
+                    <select id="courseApplied" name="courseApplied" required>
+                        <option value="">-- Select Course --</option>
+                        <option value="B.Tech (Computer Science)">B.Tech (Computer Science)</option>
+                        <option value="M.Tech">M.Tech</option>
+                        <option value="MBA">MBA</option>
+                        <option value="BCA / MCA">BCA / MCA</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input id="phoneNumber" name="phoneNumber" type="text" placeholder="+91 00000 00000" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="permanentAddress">Permanent Address</label>
+                    <textarea id="permanentAddress" name="permanentAddress" rows="4" placeholder="Enter your full address"></textarea>
+                </div>
+            </div>
+
+            <div class="note">
+                Please review your details before submitting. Our admissions team will contact you using the email and phone number you provide.
+            </div>
+
+            <div class="actions">
+                <button type="submit">Submit Application</button>
+            </div>
+
+            <div id="formStatus" class="note" role="status" aria-live="polite" hidden></div>
+        </form>
+    </div>
+</div>
+
+<div class="footer">
+    © 2026 GIET University. All Rights Reserved. Backend-enabled admission workflow.
+</div>
+
+<script>
+    const form = document.getElementById('admissionForm');
+    const formStatus = document.getElementById('formStatus');
+
+    function showStatus(message, isError) {
+        formStatus.hidden = false;
+        formStatus.textContent = message;
+        formStatus.style.borderColor = isError ? 'rgba(176, 31, 31, 0.24)' : 'rgba(18, 59, 93, 0.12)';
+        formStatus.style.background = isError ? 'rgba(176, 31, 31, 0.08)' : 'rgba(18, 59, 93, 0.05)';
+        formStatus.style.color = isError ? '#7f1d1d' : '#5c6b7a';
+    }
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const payload = {
+            fullName: form.fullName.value.trim(),
+            emailAddress: form.emailAddress.value.trim(),
+            courseApplied: form.courseApplied.value,
+            phoneNumber: form.phoneNumber.value.trim(),
+            permanentAddress: form.permanentAddress.value.trim()
+        };
+
+        if (!payload.fullName || !payload.emailAddress || !payload.courseApplied || !payload.phoneNumber) {
+            showStatus('Please fill all required fields before submission.', true);
+            return;
+        }
+
+        // Save to localStorage
+        const submissions = JSON.parse(localStorage.getItem('admissions') || '[]');
+        const submission = {
+            id: Date.now(),
+            timestamp: new Date().toLocaleString(),
+            ...payload
+        };
+        submissions.push(submission);
+        localStorage.setItem('admissions', JSON.stringify(submissions));
+
+        // Show confirmation with all stored information
+        const confirmationMessage = `
+✓ SUCCESS! Your application has been saved.
+
+STORED INFORMATION:
+─────────────────────
+Full Name: ${payload.fullName}
+Email: ${payload.emailAddress}
+Course: ${payload.courseApplied}
+Phone: ${payload.phoneNumber}
+Address: ${payload.permanentAddress}
+Submitted: ${submission.timestamp}
+
+Total submissions saved: ${submissions.length}
+        `;
+
+        showStatus(confirmationMessage, false);
+        form.reset();
+        
+        // Optional: Log to console
+        console.log('Submission saved:', submission);
+    });
+</script>
+
+</body>
+</html>
