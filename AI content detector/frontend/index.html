@@ -1,0 +1,286 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI / Fake Content Detector</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      padding: 30px;
+    }
+    
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .tab-btn {
+      padding: 12px 24px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #999;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+    
+    .tab-btn.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+    
+    .tab-btn:hover {
+      color: #667eea;
+    }
+    
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 14px;
+      resize: vertical;
+      transition: border-color 0.3s;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    input[type=text], input[type=file] {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    
+    input[type=text]:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    input[type=file]::file-selector-button {
+      padding: 8px 16px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    
+    button {
+      padding: 12px 32px;
+      margin-top: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .result-container {
+      margin-top: 30px;
+      min-height: 50px;
+    }
+    
+    .result-box {
+      background: #f8f9fa;
+      border-left: 5px solid #667eea;
+      padding: 20px;
+      border-radius: 6px;
+      margin-top: 20px;
+    }
+    
+    .verdict {
+      font-size: 18px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .verdict.high-ai {
+      color: #d32f2f;
+    }
+    
+    .verdict.possibly-ai {
+      color: #f57c00;
+    }
+    
+    .verdict.human {
+      color: #388e3c;
+    }
+    
+    .explanation {
+      color: #555;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .analysis-item {
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+    
+    .analysis-item-label {
+      font-weight: 600;
+      color: #667eea;
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    
+    .analysis-item-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    
+    .analysis-item-meaning {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+    
+    .loading {
+      text-align: center;
+      color: #667eea;
+      font-weight: 600;
+    }
+    
+    .error {
+      background: #ffebee;
+      border-left-color: #d32f2f !important;
+      color: #c62828;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 AI Content Detector</h1>
+    <p class="subtitle">Analyze text, images, and news articles for AI-generation indicators</p>
+    
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('text')">📝 Text Analysis</button>
+      <button class="tab-btn" onclick="switchTab('image')">🖼️ Image Analysis</button>
+      <button class="tab-btn" onclick="switchTab('news')">📰 News Analysis</button>
+    </div>
+    
+    <!-- TEXT TAB -->
+    <div id="text" class="tab-content active">
+      <div class="form-group">
+        <label>Paste article, social media post, or any text:</label>
+        <textarea id="textInput" placeholder="Enter text to analyze..."></textarea>
+      </div>
+      <button onclick="submitText()">Analyze Text</button>
+      <div id="textResult" class="result-container"></div>
+    </div>
+    
+    <!-- IMAGE TAB -->
+    <div id="image" class="tab-content">
+      <div class="form-group">
+        <label>Upload an image file:</label>
+        <input type="file" id="imgFile" accept="image/*">
+      </div>
+      <button onclick="submitImage()">Analyze Image</button>
+      <div id="imgResult" class="result-container"></div>
+    </div>
+    
+    <!-- NEWS TAB -->
+    <div id="news" class="tab-content">
+      <div class="form-group">
+        <label>Enter article URL or paste article text:</label>
+        <textarea id="urlInput" placeholder="Paste URL or article text..."></textarea>
+      </div>
+      <button onclick="submitUrl()">Analyze Article</button>
+      <div id="urlResult" class="result-container"></div>
+    </div>
+    
+
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
